@@ -1,0 +1,20 @@
+{
+  "name": "whereto",
+  "version": "0.1.0",
+  "description": "A Chrome Extension that lists domains a page is sending a request to.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atsuya/whereto.git"
+  },
+  "author": "Atsuya Takagi <asoftonight@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/atsuya/whereto#readme",
+  "devDependencies": {
+    "eslint": "6.8.0",
+    "eslint-config-google": "0.14.0"
+  }
+}
