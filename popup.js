@@ -40,13 +40,16 @@
 
   /**
    * Shows a list of domains.
-   * @param {!Array<!Object>} domains A list of domains with following
-   *     attributes in each element:
-   *     - domain: Domain name.
-   *     - requestCounts: Number of requests sent to the domain.
+   * @param {!Array<!Object>} domains The object returned from
+   *     RequestManager.domains.
    */
   async function showDomains(domains) {
-    const sortedDomains = domains.sort((domain, anotherDomain) => {
+    // current page url
+    const currentPage = document.getElementById('current-page-url')
+    currentPage.innerHTML = domains.currentPage
+
+    // domain list
+    const sortedDomains = domains.domains.sort((domain, anotherDomain) => {
       // decending order
       return anotherDomain.requestCount - domain.requestCount
     })

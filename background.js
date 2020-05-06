@@ -15,7 +15,7 @@ const requestManager = new RequestManager()
 chrome.webRequest.onBeforeRequest.addListener(
     (details) => {
       if (details.type === 'main_frame') {
-        requestManager.newPageLoadStarted()
+        requestManager.newPageLoadStarted(details.url)
       }
       requestManager.requestStarted(details.requestId, details.url)
 
