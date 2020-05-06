@@ -1,8 +1,9 @@
+'use strict'
+
 /**
  * Licensed under MIT
  * (https://github.com/atsuya/whereto/blob/master/LICENSE)
  */
-'use strict'
 
 const requestManager = new RequestManager()
 
