@@ -5,6 +5,11 @@
  * (https://github.com/atsuya/whereto/blob/master/LICENSE)
  */
 
+const URL_FILTERS = [
+  'https://*/*',
+  'http://*/*',
+]
+
 const requestManager = new RequestManager()
 
 chrome.webRequest.onBeforeRequest.addListener(
@@ -17,10 +22,7 @@ chrome.webRequest.onBeforeRequest.addListener(
       //console.log(`onBeforeRequest[${details.type}] - ${details.frameId} - ${details.parentFrameId}`)
     },
     {
-      urls: [
-        'https://*/*',
-        'http://*/*',
-      ],
+      urls: URL_FILTERS,
     })
 
 chrome.webRequest.onCompleted.addListener(
@@ -29,20 +31,36 @@ chrome.webRequest.onCompleted.addListener(
       //console.log(`onCompleted - ${details.frameId} - ${details.parentFrameId}`)
     },
     {
-      urls: [
-        'https://*/*',
-        'http://*/*',
-      ],
+      urls: URL_FILTERS,
     })
 
 chrome.webRequest.onErrorOccurred.addListener(
     (details) => {
-      requestManager.requestEnded(details.requestId)
+      requestManager.requestEnded(details.requestId, details.url)
       //console.log(`onErrorOccurred - ${details.frameId} - ${details.parentFrameId}`)
     },
     {
-      urls: [
-        'https://*/*',
-        'http://*/*',
-      ],
+      urls: URL_FILTERS,
     })
+
+chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
+  console.log(`request: ${JSON.stringify(request)}`)
+
+  requestManager.domains()
+      .then((domains) => {
+        sendResponse({
+          error: null,
+          data: domains,
+        })
+      })
+      .catch((exception) => {
+        console.log(`Failed to retrieve domains: ${exception.message}`)
+
+        sendResponse({
+          error: new Error('Failed to retrieve domains'),
+          data: null,
+        })
+      })
+
+  return true
+})

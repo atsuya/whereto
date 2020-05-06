@@ -14,5 +14,9 @@
       "background.js"
     ],
     "persistent": true
+  },
+  "browser_action": {
+    "default_title": "whereto",
+    "default_popup": "popup.html"
   }
 }
