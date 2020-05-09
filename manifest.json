@@ -10,6 +10,7 @@
   ],
   "background": {
     "scripts": [
+      "lib/page.js",
       "lib/request-manager.js",
       "background.js"
     ],
