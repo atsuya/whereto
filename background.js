@@ -14,12 +14,22 @@ const requestManager = new RequestManager()
 
 chrome.webRequest.onBeforeRequest.addListener(
     (details) => {
+      // since `newPageLoadStarted` is async method, it's better to wait
+      // its completion before calling `requestStarted`.
+      // i'm ignoring it at the moment as it's not significant to a regular
+      // use.
       if (details.type === 'main_frame') {
-        requestManager.newPageLoadStarted(details.url)
+        requestManager.newPageLoadStarted(details.tabId, details.url)
       }
-      requestManager.requestStarted(details.requestId, details.url)
+      requestManager.requestStarted(
+          details.tabId,
+          details.requestId,
+          details.url)
 
-      //console.log(`onBeforeRequest[${details.type}] - ${details.frameId} - ${details.parentFrameId}`)
+      console.log(
+          `onBeforeRequest[${details.type}] - tabId=${details.tabId}, ` +
+          `frameId=${details.frameId}, ` +
+          `parentFrameId=${details.parentFrameId}`)
     },
     {
       urls: URL_FILTERS,
@@ -27,8 +37,15 @@ chrome.webRequest.onBeforeRequest.addListener(
 
 chrome.webRequest.onCompleted.addListener(
     (details) => {
-      requestManager.requestEnded(details.requestId, details.url)
-      //console.log(`onCompleted - ${details.frameId} - ${details.parentFrameId}`)
+      requestManager.requestEnded(
+          details.tabId,
+          details.requestId,
+          details.url)
+
+      console.log(
+          `onCompleted[${details.type}] - tabId=${details.tabId}, ` +
+          `frameId=${details.frameId}, ` +
+          `parentFrameId=${details.parentFrameId}`)
     },
     {
       urls: URL_FILTERS,
@@ -36,8 +53,15 @@ chrome.webRequest.onCompleted.addListener(
 
 chrome.webRequest.onErrorOccurred.addListener(
     (details) => {
-      requestManager.requestEnded(details.requestId, details.url)
-      //console.log(`onErrorOccurred - ${details.frameId} - ${details.parentFrameId}`)
+      requestManager.requestEnded(
+          details.tabId,
+          details.requestId,
+          details.url)
+
+      console.log(
+          `onErrorOccurred[${details.type}] - tabId=${details.tabId}, ` +
+          `frameId=${details.frameId}, ` +
+          `parentFrameId=${details.parentFrameId}`)
     },
     {
       urls: URL_FILTERS,
@@ -46,7 +70,7 @@ chrome.webRequest.onErrorOccurred.addListener(
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   console.log(`request: ${JSON.stringify(request)}`)
 
-  requestManager.domains()
+  requestManager.domains(request.tabId)
       .then((domains) => {
         sendResponse({
           error: null,

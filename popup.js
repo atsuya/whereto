@@ -26,14 +26,30 @@
    */
   function retrieveDomains() {
     return new Promise((resolve, reject) => {
-      chrome.runtime.sendMessage({}, (response) => {
-        if (response.error) {
-          reject(response.error)
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs.length !== 1) {
+          reject(new Error('Mulitple tabs returned where expected one'))
           return
         }
 
-        resolve(response.data)
-        return
+        const tab = tabs[0]
+        if (tab.id) {
+          const message = {
+            tabId: tab.id,
+          }
+          chrome.runtime.sendMessage(message, (response) => {
+            if (response.error) {
+              reject(response.error)
+              return
+            }
+
+            resolve(response.data)
+            return
+          })
+        } else {
+          reject(new Error('Tab ID is not present'))
+          return
+        }
       })
     })
   }
