@@ -6,6 +6,8 @@
   // quite a hack, but oh well
   'use strict'
 
+  const DEBUG = true
+
   /**
    */
   async function initializePage() {
@@ -14,9 +16,11 @@
       await showDomains(domains)
 
       // debug
-      const element = document.getElementById('text-area')
-      element.value = JSON.stringify(domains)
-      console.log(domains)
+      if (DEBUG) {
+        const element = document.getElementById('text-area')
+        element.value = JSON.stringify(domains)
+        console.log(domains)
+      }
     } catch (exception) {
       console.log(`Error initializing page: ${exception.message}`)
     }
