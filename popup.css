@@ -17,3 +17,10 @@ body {
 
 #current-page-url {
 }
+
+#domain-list .subdomain {
+  color: #aaaaaa;
+}
+
+#domain-list .tld {
+}
