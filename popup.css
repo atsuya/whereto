@@ -24,3 +24,7 @@ body {
 
 #domain-list .tld {
 }
+
+#domain-list .request-count {
+  font-weight: bold;
+}

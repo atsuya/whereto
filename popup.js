@@ -63,32 +63,51 @@
     for (let index = 0; index < sortedDomains.length; index++) {
       const domain = sortedDomains[index]
 
-      // TODO: needs to account for tld with > 2 dots (i.e. google.co.jp)
-      // [0]: subdomains
-      // [1]: tld
-      const domainEntities = domain.domain.split('.')
-      const domainComponents = domainEntities.reduce(
-          (components, entity, index) => {
-            let componentsIndex = 0
-            if (index >= (domainEntities.length - 2)) {
-              componentsIndex = 1
-            }
-            components[componentsIndex].push(entity)
-            return components
-          },
-          [[], []])
+      const fqdn = domain.domain
+      const domainSuffix = tldjs.getPublicSuffix(fqdn)
+      const suffixIndex = fqdn.indexOf(domainSuffix)
+      const subdomain = fqdn.substring(0, (suffixIndex - 1))
+
+      //// TODO: needs to account for tld with > 2 dots (i.e. google.co.jp)
+      //// [0]: subdomains
+      //// [1]: tld
+      //const domainEntities = domain.domain.split('.')
+      //const domainComponents = domainEntities.reduce(
+      //    (components, entity, index) => {
+      //      let componentsIndex = 0
+      //      if (index >= (domainEntities.length - 2)) {
+      //        componentsIndex = 1
+      //      }
+      //      components[componentsIndex].push(entity)
+      //      return components
+      //    },
+      //    [[], []])
 
       const subdomainElement = document.createElement('span')
       subdomainElement.className = 'subdomain'
-      subdomainElement.innerHTML = domainComponents[0].join('.')
+      subdomainElement.innerHTML = subdomain
 
       const tldElement = document.createElement('span')
       tldElement.className = 'tld'
-      tldElement.innerHTML = `.${domainComponents[1].join('.')}`
+      tldElement.innerHTML = `.${domainSuffix}`
+
+      const requestCountOpeningElement = document.createElement('span')
+      requestCountOpeningElement.innerHTML = ' ['
+
+      const requestCountElement = document.createElement('span')
+      requestCountElement.className = 'request-count'
+      requestCountElement.innerHTML = domain.requestCount
+
+      const requestCountClosingElement = document.createElement('span')
+      requestCountClosingElement.innerHTML = ']'
 
       const listItemElement = document.createElement('li')
-      listItemElement.appendChild(subdomainElement)
-      listItemElement.appendChild(tldElement)
+      listItemElement.append(
+          subdomainElement,
+          tldElement,
+          requestCountOpeningElement,
+          requestCountElement,
+          requestCountClosingElement)
       listElement.appendChild(listItemElement)
     }
   }
