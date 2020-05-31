@@ -64,9 +64,24 @@
       const domain = sortedDomains[index]
 
       const fqdn = domain.domain
-      const domainSuffix = tldjs.getPublicSuffix(fqdn)
-      const suffixIndex = fqdn.indexOf(domainSuffix)
-      const subdomain = fqdn.substring(0, (suffixIndex - 1))
+      //const domainSuffix = tldjs.getPublicSuffix(fqdn)
+      //const suffixIndex = fqdn.indexOf(domainSuffix)
+      //const subdomain = fqdn.substring(0, (suffixIndex - 1))
+      let registeredDomain = fqdn
+      let subdomain = ''
+
+      try {
+        registeredDomain = DomainUtility.registeredDomain(fqdn)
+        console.log(registeredDomain)
+        const registeredDomainLength = registeredDomain.split('.').length
+
+        const domainSegments = fqdn.split('.')
+        const subdomains = domainSegments.slice(
+            0, (domainSegments.length - registeredDomainLength))
+        subdomain = subdomains.join('.')
+      } catch (exception) {
+        console.log(`Error identifying registered domain: ${exception.message}`)
+      }
 
       //// TODO: needs to account for tld with > 2 dots (i.e. google.co.jp)
       //// [0]: subdomains
@@ -89,7 +104,7 @@
 
       const tldElement = document.createElement('span')
       tldElement.className = 'tld'
-      tldElement.innerHTML = `.${domainSuffix}`
+      tldElement.innerHTML = `.${registeredDomain}`
 
       const requestCountOpeningElement = document.createElement('span')
       requestCountOpeningElement.innerHTML = ' ['
