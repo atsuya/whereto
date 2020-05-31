@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "description": "A Chrome Extension that lists domains a page is sending a request to.",
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/atsuya/whereto.git"
