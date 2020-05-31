@@ -4,8 +4,6 @@
   "description": "A Chrome Extension that lists domains a page is sending a request to.",
   "main": "index.js",
   "scripts": {
-    "build": "npx browserify node_modules/tldjs/index.js --s tldjs | npx uglifyjs -c -o vendor/tldjs/tld.min.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
