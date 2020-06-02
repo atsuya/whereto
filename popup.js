@@ -72,7 +72,6 @@
 
       try {
         registeredDomain = DomainUtility.registeredDomain(fqdn)
-        console.log(registeredDomain)
         const registeredDomainLength = registeredDomain.split('.').length
 
         const domainSegments = fqdn.split('.')
