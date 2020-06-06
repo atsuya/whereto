@@ -14,7 +14,7 @@ do
   diff_sec="$(($current_sec-$last_updated_sec))"
 
   if [ "$diff_sec" -gt "$SECONDS_TO_WAIT" ]; then
-    ./prepare-package.sh
+    ./build-package.sh
 
     last_updated_sec=$(current_time_in_sec)
   fi

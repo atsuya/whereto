@@ -10,7 +10,6 @@
   ],
   "background": {
     "scripts": [
-      "lib/request-manager.js",
       "background.js"
     ],
     "persistent": true
