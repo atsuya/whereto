@@ -17,10 +17,15 @@
     "tldjs": "2.3.1"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "13.0.0",
+    "@rollup/plugin-json": "4.1.0",
+    "@rollup/plugin-node-resolve": "8.0.1",
     "browserify": "16.5.1",
     "eslint": "6.8.0",
     "eslint-config-google": "0.14.0",
     "mocha": "7.2.0",
+    "rollup": "2.13.1",
+    "rollup-plugin-node-polyfills": "0.2.1",
     "uglify-js": "3.9.3"
   }
 }
