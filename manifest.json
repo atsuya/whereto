@@ -4,6 +4,7 @@
   "description": "A Chrome Extension that lists domains a page is sending a request to.",
   "manifest_version": 2,
   "permissions": [
+    "activeTab",
     "webRequest",
     "https://*/*",
     "http://*/*"
