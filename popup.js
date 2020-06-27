@@ -9,8 +9,6 @@ const DomainUtility = require('./lib/domain-utility')
 
 const DEBUG = true
 
-let domainUtility
-
 /**
  */
 async function initializePage() {
@@ -35,15 +33,25 @@ async function initializePage() {
  */
 function retrieveDomains() {
   return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage({}, (response) => {
-      if (response.error) {
-        reject(response.error)
-        return
-      }
+    console.log('calling tabs.getCurrent')
+    chrome.tabs.query(
+        {
+          active: true,
+          lastFocusedWindow: true,
+        },
+        (tabs) => {
+          console.log(tabs)
+          const currentTab = tabs[0]
+          chrome.runtime.sendMessage({ tabId: currentTab.id }, (response) => {
+            if (response.error) {
+              reject(response.error)
+              return
+            }
 
-      resolve(response.data)
-      return
-    })
+            resolve(response.data)
+            return
+          })
+        })
   })
 }
 
