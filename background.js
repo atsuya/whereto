@@ -5,6 +5,8 @@
  * (https://github.com/atsuya/whereto/blob/master/LICENSE)
  */
 
+const RequestManager = require('./lib/request-manager')
+
 const URL_FILTERS = [
   'https://*/*',
   'http://*/*',
@@ -14,22 +16,16 @@ const requestManager = new RequestManager()
 
 chrome.webRequest.onBeforeRequest.addListener(
     (details) => {
-      // since `newPageLoadStarted` is async method, it's better to wait
-      // its completion before calling `requestStarted`.
-      // i'm ignoring it at the moment as it's not significant to a regular
-      // use.
+      // debug
+      console.log(`details.type`)
+      if (details.type === 'main_frame') {
+        console.log(details.url)
+      }
+
       if (details.type === 'main_frame') {
         requestManager.newPageLoadStarted(details.tabId, details.url)
       }
-      requestManager.requestStarted(
-          details.tabId,
-          details.requestId,
-          details.url)
-
-      console.log(
-          `onBeforeRequest[${details.type}] - tabId=${details.tabId}, ` +
-          `frameId=${details.frameId}, ` +
-          `parentFrameId=${details.parentFrameId}`)
+      requestManager.requestStarted(details.requestId, details.url)
     },
     {
       urls: URL_FILTERS,
@@ -37,15 +33,7 @@ chrome.webRequest.onBeforeRequest.addListener(
 
 chrome.webRequest.onCompleted.addListener(
     (details) => {
-      requestManager.requestEnded(
-          details.tabId,
-          details.requestId,
-          details.url)
-
-      console.log(
-          `onCompleted[${details.type}] - tabId=${details.tabId}, ` +
-          `frameId=${details.frameId}, ` +
-          `parentFrameId=${details.parentFrameId}`)
+      requestManager.requestEnded(details.requestId, details.url)
     },
     {
       urls: URL_FILTERS,
@@ -53,24 +41,14 @@ chrome.webRequest.onCompleted.addListener(
 
 chrome.webRequest.onErrorOccurred.addListener(
     (details) => {
-      requestManager.requestEnded(
-          details.tabId,
-          details.requestId,
-          details.url)
-
-      console.log(
-          `onErrorOccurred[${details.type}] - tabId=${details.tabId}, ` +
-          `frameId=${details.frameId}, ` +
-          `parentFrameId=${details.parentFrameId}`)
+      requestManager.requestEnded(details.requestId, details.url)
     },
     {
       urls: URL_FILTERS,
     })
 
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-  console.log(`request: ${JSON.stringify(request)}`)
-
-  requestManager.domains(request.tabId)
+  requestManager.domains()
       .then((domains) => {
         sendResponse({
           error: null,
@@ -78,8 +56,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
         })
       })
       .catch((exception) => {
-        console.log(`Failed to retrieve domains: ${exception.message}`)
-
         sendResponse({
           error: new Error('Failed to retrieve domains'),
           data: null,
