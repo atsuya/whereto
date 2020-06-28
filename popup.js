@@ -20,7 +20,6 @@ async function initializePage() {
     if (DEBUG) {
       const element = document.getElementById('text-area')
       element.value = JSON.stringify(domains)
-      console.log(domains)
     }
   } catch (exception) {
     console.log(`Error initializing page: ${exception.message}`)
@@ -33,14 +32,12 @@ async function initializePage() {
  */
 function retrieveDomains() {
   return new Promise((resolve, reject) => {
-    console.log('calling tabs.getCurrent')
     chrome.tabs.query(
         {
           active: true,
           lastFocusedWindow: true,
         },
         (tabs) => {
-          console.log(tabs)
           const currentTab = tabs[0]
           chrome.runtime.sendMessage({ tabId: currentTab.id }, (response) => {
             if (response.error) {
@@ -70,14 +67,11 @@ async function showDomains(domains) {
     return anotherDomain.requestCount - domain.requestCount
   })
 
-  const listElement = document.getElementById('domain-list')
+  const tableBody = document.getElementById('domain-table-body')
   for (let index = 0; index < sortedDomains.length; index++) {
     const domain = sortedDomains[index]
 
     const fqdn = domain.domain
-    //const domainSuffix = tldjs.getPublicSuffix(fqdn)
-    //const suffixIndex = fqdn.indexOf(domainSuffix)
-    //const subdomain = fqdn.substring(0, (suffixIndex - 1))
     let registeredDomain = fqdn
     let subdomain = ''
 
@@ -93,47 +87,32 @@ async function showDomains(domains) {
       console.log(`Error identifying registered domain: ${exception.message}`)
     }
 
-    //// TODO: needs to account for tld with > 2 dots (i.e. google.co.jp)
-    //// [0]: subdomains
-    //// [1]: tld
-    //const domainEntities = domain.domain.split('.')
-    //const domainComponents = domainEntities.reduce(
-    //    (components, entity, index) => {
-    //      let componentsIndex = 0
-    //      if (index >= (domainEntities.length - 2)) {
-    //        componentsIndex = 1
-    //      }
-    //      components[componentsIndex].push(entity)
-    //      return components
-    //    },
-    //    [[], []])
-
+    // domain
     const subdomainElement = document.createElement('span')
     subdomainElement.className = 'subdomain'
     subdomainElement.innerHTML = subdomain
 
     const tldElement = document.createElement('span')
     tldElement.className = 'tld'
-    tldElement.innerHTML = `.${registeredDomain}`
+    tldElement.innerHTML = `${subdomain === '' ? '' : '.'}${registeredDomain}`
 
-    const requestCountOpeningElement = document.createElement('span')
-    requestCountOpeningElement.innerHTML = ' ['
+    const domainColumn = document.createElement('td')
+    domainColumn.className = 'domain-column-domain'
+    domainColumn.append(subdomainElement, tldElement)
 
+    // requests
     const requestCountElement = document.createElement('span')
     requestCountElement.className = 'request-count'
     requestCountElement.innerHTML = domain.requestCount
 
-    const requestCountClosingElement = document.createElement('span')
-    requestCountClosingElement.innerHTML = ']'
+    const requestsColumn = document.createElement('td')
+    requestsColumn.className = 'domain-column-requests'
+    requestsColumn.append(requestCountElement)
 
-    const listItemElement = document.createElement('li')
-    listItemElement.append(
-        subdomainElement,
-        tldElement,
-        requestCountOpeningElement,
-        requestCountElement,
-        requestCountClosingElement)
-    listElement.appendChild(listItemElement)
+    // add a new row
+    const newRow = document.createElement('tr')
+    newRow.append(domainColumn, requestsColumn)
+    tableBody.append(newRow)
   }
 }
 

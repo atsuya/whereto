@@ -15,16 +15,72 @@ body {
   padding: 20px;
 }
 
-#current-page-url {
+.header {
+  margin-top: 0px;
 }
 
-#domain-list .subdomain {
+#current-page-url {
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+#domain-table {
+  table-layout: fixed;
+  border-collapse: collapse;
+  width: 100%;
+  border-bottom: 2px solid #dee2e6;
+}
+
+#domain-table .subdomain {
   color: #aaaaaa;
 }
 
-#domain-list .tld {
+#domain-table .tld {
 }
 
-#domain-list .request-count {
+#domain-table.request-count {
   font-weight: bold;
+}
+
+#domain-table thead {
+  display: block;
+}
+
+#domain-table thead tr th {
+  border-bottom: 2px solid #dee2e6;
+  /**
+   * dark header
+  background-color: #212529;
+  border-color: #32383e;
+  color: #ffffff;
+  */
+}
+
+#domain-table tbody {
+  display: block;
+  overflow: auto;
+  height: 200px;
+}
+
+#domain-table tbody tr:nth-child(even) {
+}
+
+#domain-table tbody tr:nth-child(odd) {
+  background: rgba(0,0,0,.05);
+}
+
+#domain-table tbody tr td {
+  border-top: 1px solid #dee2e6;
+}
+
+#domain-table .domain-column-domain {
+  text-align: left;
+  overflow-wrap: anywhere;
+  padding: 5px;
+  width: 350px;
+}
+
+#domain-table .domain-column-requests {
+  text-align: right;
+  padding: 5px;
 }
