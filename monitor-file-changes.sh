@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#
+# Licensed under MIT
+# (https://github.com/atsuya/whereto/blob/master/LICENSE)
+#
+
 SECONDS_TO_WAIT=5
 
 function current_time_in_sec() {

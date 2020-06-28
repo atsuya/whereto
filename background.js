@@ -17,7 +17,7 @@ const requestManager = new RequestManager()
 chrome.webRequest.onBeforeRequest.addListener(
     (details) => {
       // debug
-      console.log(`${details.type}[${details.tabId}]: ${details.url}`)
+      //console.log(`${details.type}[${details.tabId}]: ${details.url}`)
 
       if (details.type === 'main_frame') {
         requestManager.newPageLoadStarted(details.tabId, details.url)
@@ -48,7 +48,6 @@ chrome.webRequest.onErrorOccurred.addListener(
     })
 
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-  console.log(request)
   requestManager.domains(request.tabId)
       .then((domains) => {
         sendResponse({
