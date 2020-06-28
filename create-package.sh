@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#
+# Licensed under MIT
+# (https://github.com/atsuya/whereto/blob/master/LICENSE)
+#
+
 BUILD_DIRECTORY_PATH=`pwd`"/build"
 TEMP_DIRECTORY_PATH=`pwd`"/tmp"
 DIST_DIRECTORY_PATH=`pwd`"/dist"
