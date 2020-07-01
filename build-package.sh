@@ -30,5 +30,6 @@ cp ./manifest.json ${BUILD_DIRECTORY_PATH}
 cp ./popup.css ${BUILD_DIRECTORY_PATH}
 cp ./popup.html ${BUILD_DIRECTORY_PATH}
 cp ./README.md ${BUILD_DIRECTORY_PATH}
+cp ./images/*.png ${BUILD_DIRECTORY_PATH}
 
 echo -e "Done"
