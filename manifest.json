@@ -1,7 +1,7 @@
 {
   "name": "whereto",
   "version": "0.1.0",
-  "description": "A Chrome Extension that lists domains in where the page you visited sent a request to.",
+  "description": "A Chrome Extension that lists domains where the page you visited sent a request to.",
   "manifest_version": 2,
   "icons": {
     "16": "icon16.png",
