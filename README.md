@@ -2,6 +2,7 @@
 
 A Chrome Extension that lists domains a page is sending a request to.
 
+
 ## how to build
 
 ```
@@ -17,3 +18,10 @@ $ ./monitor-file-changes.sh
 ```
 
 `monitor-file-changes.sh` requires [fswatch](https://github.com/emcrisostomo/fswatch).
+
+
+## how to create a package for distribution
+
+```
+$ ./create-package.sh
+```
