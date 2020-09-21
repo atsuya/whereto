@@ -6,7 +6,7 @@ A Chrome Extension that lists domains a page is sending a request to.
 ## how to build
 
 ```
-$ ./prepare-package.sh
+$ ./build-package.sh
 ```
 
 The command above all necessary outputs in `dist` directory. Use this `dist` directory to load the extension locally when developing.
@@ -23,5 +23,6 @@ $ ./monitor-file-changes.sh
 ## how to create a package for distribution
 
 ```
+$ ./build-package.sh
 $ ./create-package.sh
 ```
