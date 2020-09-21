@@ -39,6 +39,7 @@ rm ${TEMP_DIRECTORY_PATH}/*.map
 #
 # zip them up
 #
-zip -r ${DIST_FILE_PATH} ${TEMP_DIRECTORY_PATH}
+cd ${TEMP_DIRECTORY_PATH}
+zip -r ${DIST_FILE_PATH} ./
 
 echo -e "Done"
