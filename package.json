@@ -1,6 +1,6 @@
 {
   "name": "whereto",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Chrome Extension that lists domains a page is sending a request to.",
   "main": "index.js",
   "scripts": {
