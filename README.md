@@ -2,6 +2,13 @@
 
 A Chrome Extension that lists domains a page is sending a request to.
 
+![Example where whereto showing where https://rakuten.co.jp/ sends requests to](/docs/whereto-rakuten.png)
+
+
+## how to install
+
+Install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/whereto/lclhbbcnkdpbajfmedglcbdikdmchaim).
+
 
 ## how to build
 
